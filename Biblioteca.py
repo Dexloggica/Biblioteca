@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#Biblioteca Dex Loggica
+#Biblioteca por Dex Loggica 
 import tkinter as tk
 from tkinter import ttk
 class Application(ttk.Frame):
