@@ -90,10 +90,10 @@ class Application(ttk.Frame):
         connect = self.conectar()
         cursor=connect.cursor()
         cursor.execute("SELECT idLibro, Titulo, Numero FROM libro")
-    
+
         for idLibro, Titulo, Numero in cursor.fetchall():
             print("{0} {1}".format(Titulo, Numero))
-            self.scrolledtext1.insert(tk.END, "código:"+str(idLibro)+"\ndescripción:"+Titulo+"\nprecio:"+str(Numero)+"\n\n")
+            self.scrolledtext1.insert(tk.END, "id:"+str(idLibro)+"\nTitulo:"+Titulo+"\nNumero:"+str(Numero)+"\n\n")
         cursor.close()
         connect.commit()
         connect.close()
