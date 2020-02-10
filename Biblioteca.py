@@ -75,8 +75,58 @@ class Application(ttk.Frame):
         self.paginas=tk.IntVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
         self.entrytomo.grid(column=1, row=2, padx=4, pady=4)
+        #FECHA DE PUBLICACION
+        self.label1=ttk.Label(self.labelframe1, text="Fecha de Publicacion:")
+        self.label1.grid(column=0, row=3, padx=4, pady=4)
+        self.paginas=tk.IntVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=3, padx=4, pady=4)
+        #GENEROS
+        self.label1=ttk.Label(self.labelframe1, text="Generos:")
+        self.label1.grid(column=0, row=4, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=4, padx=4, pady=4)
+        #PAIS
+        self.label1=ttk.Label(self.labelframe1, text="Pais:")
+        self.label1.grid(column=0, row=5, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=5, padx=4, pady=4)
+        #EDITORIAL
+        self.label1=ttk.Label(self.labelframe1, text="Editorial:")
+        self.label1.grid(column=0, row=6, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=6, padx=4, pady=4)
+        #AUTORES
+        self.label1=ttk.Label(self.labelframe1, text="Autores:")
+        self.label1.grid(column=0, row=7, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=7, padx=4, pady=4)
+        #ISBN
+        self.label1=ttk.Label(self.labelframe1, text="ISBN:")
+        self.label1.grid(column=0, row=8, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=8, padx=4, pady=4)
+        #LINK de IMAGEN
+        self.label1=ttk.Label(self.labelframe1, text="Link de imagen:")
+        self.label1.grid(column=0, row=9, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=9, padx=4, pady=4)
+        #LINK de PDF
+        self.label1=ttk.Label(self.labelframe1, text="Link del libro:")
+        self.label1.grid(column=0, row=10, padx=4, pady=4)
+        self.paginas=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginas)
+        self.entrytomo.grid(column=1, row=10, padx=4, pady=4)
+        
+        #Boton para confirmar registro
         self.boton1=ttk.Button(self.labelframe1, text="Confirmar",command=self.registrar)
-        self.boton1.grid(column=0, row=3, padx=4, pady=4)
+        self.boton1.grid(column=0, row=11, padx=4, pady=4)
     def busqueda_libros(self):
         self.pagina1 = ttk.Frame(self.notebook)
         self.notebook.add(self.pagina1, text="Busqueda de libros")
