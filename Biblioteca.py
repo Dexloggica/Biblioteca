@@ -6,17 +6,14 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as mb
 from tkinter import scrolledtext as st
-#from tkinter import *
-import pymysql
-#from math import *
-import Biblioteca.conexion_base_datos
+import conexion_base_datos
 
 class Application(ttk.Frame):
     def __init__(self, main_window):
         super().__init__(main_window)
         main_window.title("Biblioteca")
 
-        self.conexion=Biblioteca.conexion_base_datos.Libros
+        self.conexion=conexion_base_datos.Libros
         # Crear el panel de pestañas.
         self.notebook = ttk.Notebook(self)
         # Crear el contenido de cada una de las pestañas.
@@ -179,7 +176,7 @@ class Application(ttk.Frame):
                                               "\estado:"+str(fila[10])+"\n\n")   
 
     def consultar(self):
-        datos=(self.codigo.get(), )
+        datos=(self.titulo.get(), )
         respuesta=self.notebook.consulta(datos)
         if len(respuesta)>0:
             self.titulo.set(respuesta[0][0])
@@ -205,7 +202,7 @@ class Application(ttk.Frame):
             self.editorial.set('')
             self.veces.set('')
             self.estado.set('')
-            mb.showinfo("Información", "No existe un artículo con dicho código")
+            mb.showinfo("Información", "No existe un libro con dicho titulo")
 
     def borrado(self):
         self.pagina4 = ttk.Frame(self.notebook)
@@ -222,12 +219,49 @@ class Application(ttk.Frame):
 
     def borrar(self):
         datos=(self.codigoborra.get(), )
-        cantidad=self.articulo1.baja(datos)
+        cantidad=self.notebook.baja(datos)
         if cantidad==1:
             mb.showinfo("Información", "Se borró el artículo con dicho código")
         else:
             mb.showinfo("Información", "No existe un artículo con dicho código")
 
+    def modificar(selg):
+        self.pagina5 = ttk.Frame(self.notebook)
+        self.notebook.add(self.pagina5, text="Modificar libro")
+        self.labelframe1=ttk.LabelFrame(self.pagina5, text="Libro")
+        self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
+
+        self.label1=ttk.Label(self.labelframe1, text="Titulo:")
+        self.label1.grid(column=0, row=0, padx=4, pady=4)
+        self.titulomod=tk.StringVar()
+        self.entrytitulo=ttk.Entry(self.labelframe1, textvariable=self.titulomod)
+        self.entrytitulo.grid(column=1, row=0, padx=4, pady=4)
+
+        self.label2=ttk.Label(self.labelframe1, text="Descripción:")        
+        self.label2.grid(column=0, row=1, padx=4, pady=4)
+        self.descripcionmod=tk.StringVar()
+        self.entrydescripcion=ttk.Entry(self.labelframe1, textvariable=self.descripcionmod)
+        self.entrydescripcion.grid(column=1, row=1, padx=4, pady=4)
+
+        self.label3=ttk.Label(self.labelframe1, text="Precio:")        
+        self.label3.grid(column=0, row=2, padx=4, pady=4)
+        self.preciomod=tk.StringVar()
+        self.entryprecio=ttk.Entry(self.labelframe1, textvariable=self.preciomod)
+        self.entryprecio.grid(column=1, row=2, padx=4, pady=4)
+
+        self.boton1=ttk.Button(self.labelframe1, text="Consultar", command=self.consultar_mod)
+        self.boton1.grid(column=1, row=3, padx=4, pady=4)
+        
+        self.boton1=ttk.Button(self.labelframe1, text="Modificar", command=self.modifica)
+        self.boton1.grid(column=1, row=4, padx=4, pady=4)
+    
+    def modifica(self):
+        datos=(self.descripcionmod.get(), self.preciomod.get(), self.codigomod.get())
+        cantidad=self.articulo1.modificacion(datos)
+        if cantidad==1:
+            mb.showinfo("Información", "Se modificó el artículo")
+        else:
+            mb.showinfo("Información", "No existe un artículo con dicho código")
 main_window = tk.Tk()
 app = Application(main_window)
 app.mainloop()
