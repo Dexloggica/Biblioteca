@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+#hola
 #Biblioteca por Dex Loggica 
 from tkinter import *
 import pymysql
@@ -90,6 +90,7 @@ class Application(ttk.Frame):
             connect.rollback()
         cursor.close()
         connect.close()
+
     def carga_libros(self):
         self.pagina1 = ttk.Frame(self.notebook)
         self.notebook.add(self.pagina1, text="Carga de libros")
@@ -142,6 +143,7 @@ class Application(ttk.Frame):
         #Boton para confirmar registro
         self.boton1=ttk.Button(self.labelframe1, text="Registrar",command=self.registrar)
         self.boton1.grid(column=0, row=7, padx=4, pady=4, columnspan=2)
+
     def busqueda_libros(self):
         self.pagina1 = ttk.Frame(self.notebook)
         self.notebook.add(self.pagina1, text="Busqueda de libros")
@@ -151,6 +153,7 @@ class Application(ttk.Frame):
         self.boton1.grid(column=0, row=0, padx=4, pady=4)
         self.scrolledtext1=st.ScrolledText(self.labelframe1, width=30, height=10)
         self.scrolledtext1.grid(column=0,row=1, padx=10, pady=10)
+        
     def listar(self):
         connect = self.conectar()
         cursor=connect.cursor()
