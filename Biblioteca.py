@@ -9,14 +9,14 @@ from tkinter import scrolledtext as st
 #from tkinter import *
 import pymysql
 #from math import *
-import conexion_base_datos
+import Biblioteca.conexion_base_datos
 
 class Application(ttk.Frame):
     def __init__(self, main_window):
         super().__init__(main_window)
         main_window.title("Biblioteca")
 
-        self.conexion=conexion_base_datos.Libros
+        self.conexion=Biblioteca.conexion_base_datos.Libros
         # Crear el panel de pestañas.
         self.notebook = ttk.Notebook(self)
         # Crear el contenido de cada una de las pestañas.
@@ -113,32 +113,49 @@ class Application(ttk.Frame):
         estado
 
     def consulta_por_codigo(self):
-        self.pagina2 = ttk.Frame(self.cuaderno1)
-        self.cuaderno1.add(self.pagina2, text="Consulta por código")
-        self.labelframe1=ttk.LabelFrame(self.pagina2, text="Artículo")
+        self.pagina2 = ttk.Frame(self.notebook)
+        self.notebook.add(self.pagina2, text="Consulta por código")
+        self.labelframe1=ttk.LabelFrame(self.pagina2, text="Libro")
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
-        self.label1=ttk.Label(self.labelframe1, text="Código:")
+        self.label1=ttk.Label(self.labelframe1, text="Nombre:")
         self.label1.grid(column=0, row=0, padx=4, pady=4)
-        self.codigo=tk.StringVar()
-        self.entrycodigo=ttk.Entry(self.labelframe1, textvariable=self.codigo)
-        self.entrycodigo.grid(column=1, row=0, padx=4, pady=4)
-        self.label2=ttk.Label(self.labelframe1, text="Descripción:")        
-        self.label2.grid(column=0, row=1, padx=4, pady=4)
-        self.descripcion=tk.StringVar()
-        self.entrydescripcion=ttk.Entry(self.labelframe1, textvariable=self.descripcion, state="readonly")
-        self.entrydescripcion.grid(column=1, row=1, padx=4, pady=4)
-        self.label3=ttk.Label(self.labelframe1, text="Precio:")        
-        self.label3.grid(column=0, row=2, padx=4, pady=4)
-        self.precio=tk.StringVar()
-        self.entryprecio=ttk.Entry(self.labelframe1, textvariable=self.precio, state="readonly")
-        self.entryprecio.grid(column=1, row=2, padx=4, pady=4)
+        self.nombre=tk.StringVar()
         self.boton1=ttk.Button(self.labelframe1, text="Consultar", command=self.consultar)
         self.boton1.grid(column=1, row=3, padx=4, pady=4)
 
+    def consultar(self):
+        datos=(self.nombre.get(), )
+        respuesta=self.conexion.consulta(datos)
+        if len(respuesta)>0:
+            self.titulo.set(respuesta[0][0])
+            self.numero.set(respuesta[0][1])
+            self.paginas.set(respuesta[0][2])
+            self.fecha.set(respuesta[0][3])
+            self.isbn.set(respuesta[0][4])
+            self.imagen.set(respuesta[0][5])
+            self.descarga.set(respuesta[0][6])
+            self.pais.set(respuesta[0][7])
+            self.editorial.set(respuesta[0][8])
+            self.veces.set(respuesta[0][9])
+            self.estado.set(respuesta[0][10])
+        else:
+            self.titulo.set('')
+            self.numero.set('')
+            self.paginas.set('')
+            self.fecha.set('')
+            self.isbn.set('')
+            self.imagen.set('')
+            self.descarga.set('')
+            self.pais.set('')
+            self.editorial.set('')
+            self.veces.set('')
+            self.estado.set('')
+            mb.showinfo("Información", "No existe un libro con dicho nombre")
+
     def listado_completo(self):
-        self.pagina1 = ttk.Frame(self.notebook)
-        self.notebook.add(self.pagina1, text="Listado completo")
-        self.labelframe1=ttk.LabelFrame(self.pagina1, text="Busqueda")
+        self.pagina3 = ttk.Frame(self.notebook)
+        self.notebook.add(self.pagina3, text="Listado completo")
+        self.labelframe1=ttk.LabelFrame(self.pagina3, text="Busqueda")
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
         self.boton1=ttk.Button(self.labelframe1, text="Listado completo", command=self.listar)
         self.boton1.grid(column=0, row=0, padx=4, pady=4)
@@ -146,34 +163,56 @@ class Application(ttk.Frame):
         self.scrolledtext1.grid(column=0,row=1, padx=10, pady=10)
 
     def listar(self):
-        connect = self.conectar()
-        cursor=connect.cursor()
-        cursor.execute("SELECT idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado FROM libro")
-
-        for idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado in cursor.fetchall():
-            print("{0} {1}".format(idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado))
-            self.scrolledtext1.insert(tk.END, "id:"+str(idLibro)+"\nTitulo:"+str(Titulo)+"\nNumero:"+str(Numero)+"\nPaginas:"+str(Paginas)+"\nFechaPublicacion:"+str(FechaPublicacion)+"\nISBN:"+str(ISBN)+"\nLinkImagen:"+str(LinkImagen)+"\nLinkDescarga:"+str(LinkDescarga)+"\nidPais:"+str(Pais_idPais)+"\nidEditorial:"+str(Editorial_idEditorial)+"\nCantidadVecesPedidas:"+str(CantidadVecesPedidas)+"\nEstado:"+str(Estado)+"\n____________________\n")
-        cursor.close()
-        connect.commit()
-        connect.close()
+        respuesta=self.conexion.recuperar_todos()
+        self.scrolledtext1.delete("1.0", tk.END)        
+        for fila in respuesta:
+            self.scrolledtext1.insert(tk.END, "Titulo:"+str(fila[0])+
+                                              "\nnumero:"+str(fila[1])+
+                                              "\npaginas:"+str(fila[2])+
+                                              "\nfecha:"+str(fila[3])+
+                                              "\nisbn:"+str(fila[4])+
+                                              "\nimagen:"+str(fila[5])+
+                                              "\ndescarga:"+str(fila[6])+
+                                              "\npais:"+str(fila[7])+
+                                              "\neditorial:"+str(fila[8])+
+                                              "\nveces:"+str(fila[9])+
+                                              "\estado:"+str(fila[10])+"\n\n")   
 
     def consultar(self):
         datos=(self.codigo.get(), )
-        respuesta=self.articulo1.consulta(datos)
+        respuesta=self.notebook.consulta(datos)
         if len(respuesta)>0:
-            self.descripcion.set(respuesta[0][0])
-            self.precio.set(respuesta[0][1])
+            self.titulo.set(respuesta[0][0])
+            self.numero.set(respuesta[0][1])
+            self.paginas.set(respuesta[0][2])
+            self.fecha.set(respuesta[0][3])
+            self.isbn.set(respuesta[0][4])
+            self.imagen.set(respuesta[0][5])
+            self.descarga.set(respuesta[0][6])
+            self.pais.set(respuesta[0][7])
+            self.editorial.set(respuesta[0][8])
+            self.veces.set(respuesta[0][9])
+            self.estado.set(respuesta[0][10])
         else:
-            self.descripcion.set('')
-            self.precio.set('')
+            self.titulo.set('')
+            self.numero.set('')
+            self.paginas.set('')
+            self.fecha.set('')
+            self.isbn.set('')
+            self.imagen.set('')
+            self.descarga.set('')
+            self.pais.set('')
+            self.editorial.set('')
+            self.veces.set('')
+            self.estado.set('')
             mb.showinfo("Información", "No existe un artículo con dicho código")
 
     def borrado(self):
-        self.pagina4 = ttk.Frame(self.cuaderno1)
-        self.cuaderno1.add(self.pagina4, text="Borrado de artículos")
-        self.labelframe1=ttk.LabelFrame(self.pagina4, text="Artículo")        
+        self.pagina4 = ttk.Frame(self.notebook)
+        self.notebook.add(self.pagina4, text="Borrado de libros")
+        self.labelframe1=ttk.LabelFrame(self.pagina4, text="Libro")        
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
-        self.label1=ttk.Label(self.labelframe1, text="Código:")
+        self.label1=ttk.Label(self.labelframe1, text="Titulo:")
         self.label1.grid(column=0, row=0, padx=4, pady=4)
         self.codigoborra=tk.StringVar()
         self.entryborra=ttk.Entry(self.labelframe1, textvariable=self.codigoborra)

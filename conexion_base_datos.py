@@ -32,19 +32,20 @@ class Libros:
     def consulta(self, datos):
         cone=self.abrir()
         cursor=cone.cursor()
-        sql="select descripcion, precio from articulos where codigo=%s"
+        sql="select Titulo from libro where nombre=%s"
         cursor.execute(sql, datos)
         cone.close()
         return cursor.fetchall()
 
     def recuperar_todos(self):
-        cone=self.abrir()
+        cone = self.abrir()
         cursor=cone.cursor()
-        sql="select codigo, descripcion, precio from articulos"
+        sql="SELECT idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado FROM libro"
         cursor.execute(sql)
+        cursor.close()
+        cone.commit()
         cone.close()
-        return cursor.fetchall()
-
+        
     def baja(self, datos):
         cone=self.abrir()
         cursor=cone.cursor()
