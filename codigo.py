@@ -42,9 +42,8 @@ class Libros:
         cursor=cone.cursor()
         sql="SELECT idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado FROM libro"
         cursor.execute(sql)
-        cursor.close()
-        cone.commit()
         cone.close()
+        return cursor.fetchall()
         
     def baja(self, datos):
         cone=self.abrir()
