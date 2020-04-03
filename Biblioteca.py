@@ -233,7 +233,7 @@ class FormularioBiblioteca:
     
     def consultar_mod(self):
         datos=(self.titulomod.get(), )
-        respuesta=self.conexion.consultar(datos)
+        respuesta=self.conexion.consulta(datos)
         if len(respuesta)>0:
             self.titulomod.set(respuesta[0][0])
             self.numeromod.set(respuesta[0][1])
