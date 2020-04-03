@@ -16,7 +16,7 @@ estado=0
 
 class FormularioBiblioteca:
     def __init__(self):
-        self.conexion=self.codigo.Libros
+        self.conexion=codigo.Libros()
 
         #creo la ventana
         self.ventana1=tk.Tk()
@@ -92,16 +92,18 @@ class FormularioBiblioteca:
         #estas variables hay que editarlas en el formulario para tener un select por codigos numericos
         #####
         datos=(self.titulo.get(), self.numero.get(), self.paginas.get(), self.fecha.get(), self.isbn.get(), self.imagen.get(), self.link.get(), pais, editorial, cantidad_pedidas, estado )
+       # datos=(str(self.titulo.get()), self.numero.get(), self.paginas.get(), str(self.fecha.get()), str(self.isbn.get()), str(self.imagen.get()), str(self.link.get()), pais, editorial, cantidad_pedidas, estado )
+        print(datos)
         ######
         self.conexion.alta(datos)
-        mb.showinfo("Información", "Los datos fueron cargados")
-        self.titulo.set("")
-        self.numero.set("")
-        self.paginas.set("")
-        self.fecha.set("")
-        self.isbn.set("")
-        self.imagen.set("") 
-        self.link.set("")
+        #mb.showinfo("Información", "Los datos fueron cargados")
+        #self.titulo.set("")
+        #self.numero.set("")
+        #self.paginas.set("")
+        #self.fecha.set("")
+        #self.isbn.set("")
+        #self.imagen.set("") 
+        #self.link.set("")
         
     def consulta_por_codigo(self):
         self.pagina2 = ttk.Frame(self.notebook)
