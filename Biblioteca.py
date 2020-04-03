@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#hola
+#
 #Biblioteca por Dex Loggica
 import tkinter as tk
 from tkinter import ttk
