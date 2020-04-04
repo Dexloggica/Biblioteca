@@ -26,7 +26,7 @@ class Libros:
     def consulta(self, datos):
         cone=self.abrir()
         cursor=cone.cursor()
-        sql="select Titulo from libro where nombre=%s"
+        sql="select Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado from libro where titulo=%s"
         cursor.execute(sql, datos)
         cone.close()
         return cursor.fetchall()
@@ -42,7 +42,7 @@ class Libros:
     def baja(self, datos):
         cone=self.abrir()
         cursor=cone.cursor()
-        sql="delete from libro where nombre=%s"
+        sql="delete from libro where titulo=%s"
         cursor.execute(sql, datos)
         cone.commit()
         cone.close()
@@ -51,7 +51,7 @@ class Libros:
     def modificacion(self, datos):
         cone=self.abrir()
         cursor=cone.cursor()
-        sql="update libro set nombre=%s, precio=%s where codigo=%s"
+        sql="update libro set titulo=%s, precio=%s where codigo=%s"
         cursor.execute(sql, datos)
         cone.commit()
         cone.close()

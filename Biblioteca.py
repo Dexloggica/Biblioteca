@@ -105,19 +105,20 @@ class FormularioBiblioteca:
         #self.imagen.set("") 
         #self.link.set("")
         
-    def consulta_por_codigo(self):
+    def consulta_por_titulo(self):
         self.pagina2 = ttk.Frame(self.notebook)
-        self.notebook.add(self.pagina2, text="Consulta por código")
+        self.notebook.add(self.pagina2, text="Consulta por titulo")
         self.labelframe1=ttk.LabelFrame(self.pagina2, text="Libro")
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
-        self.label1=ttk.Label(self.labelframe1, text="Nombre:")
+        self.label1=ttk.Label(self.labelframe1, text="Titulo:")
         self.label1.grid(column=0, row=0, padx=4, pady=4)
-        self.nombre=tk.StringVar()
+        self.titulo=tk.StringVar()
+        #boton para realizar consulta
         self.boton1=ttk.Button(self.labelframe1, text="Consultar", command=self.consultar)
         self.boton1.grid(column=1, row=3, padx=4, pady=4)
 
     def consultar(self):
-        datos=(self.nombre.get(), )
+        datos=(self.titulo.get(), )
         respuesta=self.conexion.consulta(datos)
         if len(respuesta)>0:
             self.titulo.set(respuesta[0][0])
@@ -143,7 +144,7 @@ class FormularioBiblioteca:
             #self.editorial.set('')
             #self.veces.set('')
             #self.estado.set('')
-            mb.showinfo("Información", "No existe un libro con dicho nombre")
+            mb.showinfo("Información", "No existe un libro con dicho titulo")
 
     def listado_completo(self):
         self.pagina3 = ttk.Frame(self.notebook)
@@ -159,7 +160,7 @@ class FormularioBiblioteca:
         respuesta=self.conexion.recuperar_todos()
         self.scrolledtext1.delete("1.0", tk.END)        
         for fila in respuesta:
-            self.scrolledtext1.insert(tk.END, "Titulo:"+str(fila[0])+
+            self.scrolledtext1.insert(tk.END, "idLibro:"+str(fila[0])+
                                               "\ntitulo:"+str(fila[1])+
                                               "\nnumero:"+str(fila[2])+
                                               "\npaginas:"+str(fila[3])+
@@ -198,30 +199,54 @@ class FormularioBiblioteca:
         self.notebook.add(self.pagina5, text="Modificar libro")
         self.labelframe1=ttk.LabelFrame(self.pagina5, text="Libro")
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
-
+        #TITULO
         self.label1=ttk.Label(self.labelframe1, text="Titulo:")
         self.label1.grid(column=0, row=0, padx=4, pady=4)
         self.titulomod=tk.StringVar()
         self.entrytitulo=ttk.Entry(self.labelframe1, textvariable=self.titulomod)
         self.entrytitulo.grid(column=1, row=0, padx=4, pady=4)
-
-        self.label2=ttk.Label(self.labelframe1, text="Numero:")        
-        self.label2.grid(column=0, row=1, padx=4, pady=4)
-        self.numeromod=tk.StringVar()
-        self.entrynumero=ttk.Entry(self.labelframe1, textvariable=self.numeromod)
-        self.entrynumero.grid(column=1, row=1, padx=4, pady=4)
-
-        self.label3=ttk.Label(self.labelframe1, text="Paginas:")        
-        self.label3.grid(column=0, row=2, padx=4, pady=4)
-        self.paginasmod=tk.StringVar()
-        self.entrypaginas=ttk.Entry(self.labelframe1, textvariable=self.paginasmod)
-        self.entrypaginas.grid(column=1, row=2, padx=4, pady=4)
-
+        #NUMERO DE TOMO
+        self.label1=ttk.Label(self.labelframe1, text="Numero de tomo:")
+        self.label1.grid(column=0, row=1, padx=4, pady=4)
+        self.numeromod=tk.IntVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.numeromod)
+        self.entrytomo.grid(column=1, row=1, padx=4, pady=4)
+        #CANTIDAD DE PAGINAS
+        self.label1=ttk.Label(self.labelframe1, text="Cantidad de Paginas:")
+        self.label1.grid(column=0, row=2, padx=4, pady=4)
+        self.paginasmod=tk.IntVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paginasmod)
+        self.entrytomo.grid(column=1, row=2, padx=4, pady=4)
+        #FECHA DE PUBLICACION
+        self.label1=ttk.Label(self.labelframe1, text="Fecha de Publicacion:")
+        self.label1.grid(column=0, row=3, padx=4, pady=4)
+        self.fechamod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.fechamod)
+        self.entrytomo.grid(column=1, row=3, padx=4, pady=4)
+        #ISBN
+        self.label1=ttk.Label(self.labelframe1, text="ISBN:")
+        self.label1.grid(column=0, row=4, padx=4, pady=4)
+        self.isbnmod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.isbnmod)
+        self.entrytomo.grid(column=1, row=4, padx=4, pady=4)
+        #IMAGEN
+        self.label1=ttk.Label(self.labelframe1, text="Link de Imagen:")
+        self.label1.grid(column=0, row=5, padx=4, pady=4)
+        self.imagenmod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.imagenmod)
+        self.entrytomo.grid(column=1, row=5, padx=4, pady=4)
+        #LINK DESCARGA
+        self.label1=ttk.Label(self.labelframe1, text="Link de Descarga:")
+        self.label1.grid(column=0, row=6, padx=4, pady=4)
+        self.linkmod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.linkmod)
+        self.entrytomo.grid(column=1, row=6, padx=4, pady=4)
+        #llamada al metodo para modificar
         self.boton1=ttk.Button(self.labelframe1, text="Consultar", command=self.consultar_mod)
-        self.boton1.grid(column=1, row=3, padx=4, pady=4)
+        self.boton1.grid(column=2, row=0, padx=4, pady=4)
 
         self.boton1=ttk.Button(self.labelframe1, text="Modificar", command=self.modifica)
-        self.boton1.grid(column=1, row=4, padx=4, pady=4)
+        self.boton1.grid(column=1, row=8, padx=4, pady=4)
     
     def modifica(self):
         datos=(self.titulomod.get(), self.numeromod.get(), self.paginasmod.get(), self.fechamod.get(), self.isbnmod.get(), self.imagenmod.get(), self.linkmod.get(), pais, editorial, cantidad_pedidas, estado )
@@ -238,27 +263,19 @@ class FormularioBiblioteca:
             self.titulomod.set(respuesta[0][0])
             self.numeromod.set(respuesta[0][1])
             self.paginasmod.set(respuesta[0][2])
-            #self.fechamod.set(respuesta[0][3])
-            #self.isbnmod.set(respuesta[0][4])
-            #self.imagenmod.set(respuesta[0][5])
-            #self.descargamod.set(respuesta[0][6])
-            #self.paismod.set(respuesta[0][7])
-            #self.editorialmod.set(respuesta[0][8])
-            #self.vecesmod.set(respuesta[0][9])
-            #self.estadomod.set(respuesta[0][10])
+            self.fechamod.set(respuesta[0][3])
+            self.isbnmod.set(respuesta[0][4])
+            self.imagenmod.set(respuesta[0][5])
+            self.linkmod.set(respuesta[0][6])
         else:
             self.titulomod.set('')
             self.numeromod.set('')
             self.paginasmod.set('')
-            #self.fechamod.set('')
-            #self.isbnmod.set('')
-            #self.imagenmod.set('')
-            #self.descargamod.set('')
-            #self.paismod.set('')
-            #self.editorialmod.set('')
-            #self.vecesmod.set('')
-            #self.estadomod.set('')
-            mb.showinfo("Información", "No existe un libro con dicho nombre")
+            self.fechamod.set('')
+            self.isbnmod.set('')
+            self.imagenmod.set('')
+            self.linkmod.set('')
+            mb.showinfo("Información", "No existe un libro con dicho titulo")
 
 
 aplicacion1=FormularioBiblioteca()
