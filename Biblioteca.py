@@ -120,6 +120,11 @@ class FormularioBiblioteca:
     def consultar(self):
         datos=(self.titulo.get(), )
         respuesta=self.conexion.consulta(datos)
+        #es necesario instanciar estas variables antes de usarlas
+        self.pais=tk.StringVar()
+        self.editorial=tk.StringVar()
+        self.veces=tk.StringVar()
+        self.estado=tk.StringVar()
         if len(respuesta)>0:
             self.titulo.set(respuesta[0][0])
             self.numero.set(respuesta[0][1])
@@ -127,11 +132,11 @@ class FormularioBiblioteca:
             self.fecha.set(respuesta[0][3])
             self.isbn.set(respuesta[0][4])
             self.imagen.set(respuesta[0][5])
-            #self.descarga.set(respuesta[0][6])
-           # self.pais.set(respuesta[0][7])
-           # self.editorial.set(respuesta[0][8])
-            #self.veces.set(respuesta[0][9])
-           # self.estado.set(respuesta[0][10])
+            self.link.set(respuesta[0][6])
+            self.pais.set(respuesta[0][7])
+            self.editorial.set(respuesta[0][8])
+            self.veces.set(respuesta[0][9])
+            self.estado.set(respuesta[0][10])
         else:
             self.titulo.set('')
             self.numero.set('')
@@ -139,11 +144,11 @@ class FormularioBiblioteca:
             self.fecha.set('')
             self.isbn.set('')
             self.imagen.set('')
-            #self.descarga.set('')
-            #self.pais.set('')
-            #self.editorial.set('')
-            #self.veces.set('')
-            #self.estado.set('')
+            self.link.set('')
+            self.pais.set('')
+            self.editorial.set('')
+            self.veces.set('')
+            self.estado.set('')
             mb.showinfo("Información", "No existe un libro con dicho titulo")
 
     def listado_completo(self):
@@ -241,24 +246,53 @@ class FormularioBiblioteca:
         self.linkmod=tk.StringVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.linkmod)
         self.entrytomo.grid(column=1, row=6, padx=4, pady=4)
+
+        #Codigo de Pais
+        self.label1=ttk.Label(self.labelframe1, text="Codigo Pais:")
+        self.label1.grid(column=0, row=7, padx=4, pady=4)
+        self.paismod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paismod)
+        self.entrytomo.grid(column=1, row=7, padx=4, pady=4)
+        #Editorial
+        self.label1=ttk.Label(self.labelframe1, text="Editorial:")
+        self.label1.grid(column=0, row=8, padx=4, pady=4)
+        self.editorialmod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.editorialmod)
+        self.entrytomo.grid(column=1, row=8, padx=4, pady=4)
+        #Cantidad de veces pedidas
+        self.label1=ttk.Label(self.labelframe1, text="Veces pedidas:")
+        self.label1.grid(column=0, row=9, padx=4, pady=4)
+        self.cantidad_pedidasmod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.cantidad_pedidasmod)
+        self.entrytomo.grid(column=1, row=9, padx=4, pady=4)
+        #Estado 0 si es prestado 1 esta en biblioteca
+        self.label1=ttk.Label(self.labelframe1, text="Estado:")
+        self.label1.grid(column=0, row=10, padx=4, pady=4)
+        self.estadomod=tk.StringVar()
+        self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.estadomod)
+        self.entrytomo.grid(column=1, row=10, padx=4, pady=4)
+
         #llamada al metodo para modificar
         self.boton1=ttk.Button(self.labelframe1, text="Consultar", command=self.consultar_mod)
         self.boton1.grid(column=2, row=0, padx=4, pady=4)
 
         self.boton1=ttk.Button(self.labelframe1, text="Modificar", command=self.modifica)
-        self.boton1.grid(column=1, row=8, padx=4, pady=4)
+        self.boton1.grid(column=1, row=11, padx=4, pady=4)
     
     def modifica(self):
-        datos=(self.titulomod.get(), self.numeromod.get(), self.paginasmod.get(), self.fechamod.get(), self.isbnmod.get(), self.imagenmod.get(), self.linkmod.get(), pais, editorial, cantidad_pedidas, estado )
+        datos=(self.titulomod.get(), self.numeromod.get(), self.paginasmod.get(), self.fechamod.get(), self.isbnmod.get(), self.imagenmod.get(), self.linkmod.get(), self.paismod, self.editorialmod, self.cantidad_pedidasmod, self.estadomod)
+        print(f'datos 284 {datos}')
+        #me aseguro que modifique algun dato del libro
         cantidad=self.conexion.modificacion(datos)
         if cantidad==1:
-            mb.showinfo("Información", "Se modificó el artículo")
+            mb.showinfo("Información", "Se modificó el libro")
         else:
-            mb.showinfo("Información", "No existe un artículo con dicho código")
+            mb.showinfo("Información", "No existe un libro con dicho titulo")
     
     def consultar_mod(self):
         datos=(self.titulomod.get(), )
         respuesta=self.conexion.consulta(datos)
+        print(f'respuesta 295 {respuesta}')
         if len(respuesta)>0:
             self.titulomod.set(respuesta[0][0])
             self.numeromod.set(respuesta[0][1])
@@ -267,6 +301,11 @@ class FormularioBiblioteca:
             self.isbnmod.set(respuesta[0][4])
             self.imagenmod.set(respuesta[0][5])
             self.linkmod.set(respuesta[0][6])
+
+            self.paismod.set(respuesta[0][7])
+            self.editorialmod.set(respuesta[0][8])
+            self.cantidad_pedidasmod.set(respuesta[0][9])
+            self.estadomod.set(respuesta[0][10])
         else:
             self.titulomod.set('')
             self.numeromod.set('')
@@ -275,6 +314,11 @@ class FormularioBiblioteca:
             self.isbnmod.set('')
             self.imagenmod.set('')
             self.linkmod.set('')
+
+            self.paismod.set('')
+            self.editorialmod.set('')
+            self.cantidad_pedidasmod.set('')
+            self.estadomod.set('')
             mb.showinfo("Información", "No existe un libro con dicho titulo")
 
 

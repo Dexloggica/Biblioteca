@@ -11,7 +11,7 @@ class Libros:
         #creo el puntero
         cursor=connect.cursor()
         #realizar consulta sql
-        #print("entrando a consulta")
+        print(f'Datos de consulta {datos}')
         #sql="INSERT INTO libro (Titulo,Numero,Paginas,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado) VALUES ('%s','%d','%d','%s','%s','%s','%d','%d','%d','%d')" % (titulo,numero,paginas,isbn,imagen,link,pais,editorial,cantidad_pedidas,estado)
         #sql="INSERT INTO libro (Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado) VALUES ('%s','%d','%d','%s','%s','%s','%s','%d','%d','%d','%d')" % (titulo,numero,paginas,fecha,isbn,imagen,link,pais,editorial,cantidad_pedidas,estado)
         sql="INSERT INTO libro (Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -49,10 +49,14 @@ class Libros:
         return cursor.rowcount # retornamos la cantidad de filas borradas
 
     def modificacion(self, datos):
-        cone=self.abrir()
-        cursor=cone.cursor()
-        sql="update libro set titulo=%s, precio=%s where codigo=%s"
+        connect = self.abrir()
+        #creo el puntero
+        cursor=connect.cursor()
+        print(f'Datos de consulta UPDATE {datos}')
+        sql="UPDATE libro SET Titulo=%s, Numero=%s,Paginas=%s,FechaPublicacion=%s,ISBN=%s,LinkImagen=%s,LinkDescarga=%s,Pais_idPais=%s,Editorial_idEditorial=%s,CantidadVecesPedidas=%s,Estado=%s WHERE titulo=%s"
         cursor.execute(sql, datos)
-        cone.commit()
-        cone.close()
+        connect.commit()
+          
+        cursor.close()
+        connect.close()
         return cursor.rowcount # retornamos la cantidad de filas modificadas
