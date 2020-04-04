@@ -163,6 +163,7 @@ class FormularioBiblioteca:
 
     def listar(self):
         respuesta=self.conexion.recuperar_todos()
+        print(f'respuesta 166 {respuesta}')
         self.scrolledtext1.delete("1.0", tk.END)        
         for fila in respuesta:
             self.scrolledtext1.insert(tk.END, "idLibro:"+str(fila[0])+
@@ -250,25 +251,25 @@ class FormularioBiblioteca:
         #Codigo de Pais
         self.label1=ttk.Label(self.labelframe1, text="Codigo Pais:")
         self.label1.grid(column=0, row=7, padx=4, pady=4)
-        self.paismod=tk.StringVar()
+        self.paismod=tk.IntVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.paismod)
         self.entrytomo.grid(column=1, row=7, padx=4, pady=4)
         #Editorial
         self.label1=ttk.Label(self.labelframe1, text="Editorial:")
         self.label1.grid(column=0, row=8, padx=4, pady=4)
-        self.editorialmod=tk.StringVar()
+        self.editorialmod=tk.IntVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.editorialmod)
         self.entrytomo.grid(column=1, row=8, padx=4, pady=4)
         #Cantidad de veces pedidas
         self.label1=ttk.Label(self.labelframe1, text="Veces pedidas:")
         self.label1.grid(column=0, row=9, padx=4, pady=4)
-        self.cantidad_pedidasmod=tk.StringVar()
+        self.cantidad_pedidasmod=tk.IntVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.cantidad_pedidasmod)
         self.entrytomo.grid(column=1, row=9, padx=4, pady=4)
         #Estado 0 si es prestado 1 esta en biblioteca
         self.label1=ttk.Label(self.labelframe1, text="Estado:")
         self.label1.grid(column=0, row=10, padx=4, pady=4)
-        self.estadomod=tk.StringVar()
+        self.estadomod=tk.IntVar()
         self.entrytomo=ttk.Entry(self.labelframe1, textvariable=self.estadomod)
         self.entrytomo.grid(column=1, row=10, padx=4, pady=4)
 
@@ -280,10 +281,12 @@ class FormularioBiblioteca:
         self.boton1.grid(column=1, row=11, padx=4, pady=4)
     
     def modifica(self):
-        datos=(self.titulomod.get(), self.numeromod.get(), self.paginasmod.get(), self.fechamod.get(), self.isbnmod.get(), self.imagenmod.get(), self.linkmod.get(), self.paismod, self.editorialmod, self.cantidad_pedidasmod, self.estadomod)
+        datos=(self.titulomod.get(), self.numeromod.get(), self.paginasmod.get(), self.fechamod.get(), self.isbnmod.get(), self.imagenmod.get(), self.linkmod.get(), self.paismod.get(), self.editorialmod.get(), self.cantidad_pedidasmod.get(), self.estadomod.get(),)
         print(f'datos 284 {datos}')
         #me aseguro que modifique algun dato del libro
+        #self.conexion.modificacion(datos)
         cantidad=self.conexion.modificacion(datos)
+        #type(f'tipo de cantidad{cantidad}')
         if cantidad==1:
             mb.showinfo("Información", "Se modificó el libro")
         else:
@@ -292,7 +295,7 @@ class FormularioBiblioteca:
     def consultar_mod(self):
         datos=(self.titulomod.get(), )
         respuesta=self.conexion.consulta(datos)
-        print(f'respuesta 295 {respuesta}')
+        #print('respuesta 297 '+respuesta)
         if len(respuesta)>0:
             self.titulomod.set(respuesta[0][0])
             self.numeromod.set(respuesta[0][1])
