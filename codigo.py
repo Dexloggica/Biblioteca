@@ -48,7 +48,7 @@ class Libros:
     def baja(self, datos):
         connect=self.abrir()
         cursor=connect.cursor()
-        sql="delete from libro where Titulo=%s"
+        sql="delete from libro where idlibro=%s"
         print(f'sql {sql}')
         cursor.execute(sql, datos)
         connect.commit()

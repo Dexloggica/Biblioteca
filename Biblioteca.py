@@ -184,16 +184,16 @@ class FormularioBiblioteca:
         self.notebook.add(self.pagina4, text="Borrado de libros")
         self.labelframe1=ttk.LabelFrame(self.pagina4, text="Libro")        
         self.labelframe1.grid(column=0, row=0, padx=5, pady=10)
-        self.label1=ttk.Label(self.labelframe1, text="Titulo:")
+        self.label1=ttk.Label(self.labelframe1, text="idLibro:")
         self.label1.grid(column=0, row=0, padx=4, pady=4)
-        self.codigoborra=tk.StringVar()
-        self.entryborra=ttk.Entry(self.labelframe1, textvariable=self.codigoborra)
+        self.idlibro=tk.IntVar()
+        self.entryborra=ttk.Entry(self.labelframe1, textvariable=self.idlibro)
         self.entryborra.grid(column=1, row=0, padx=4, pady=4)
         self.boton1=ttk.Button(self.labelframe1, text="Borrar", command=self.borrar)
         self.boton1.grid(column=1, row=1, padx=4, pady=4)
 
     def borrar(self):
-        datos=(self.codigoborra.get(), )
+        datos=(self.idlibro.get(), )
         cantidad=self.conexion.baja(datos)
         if cantidad==1:
             mb.showinfo("Información", "Se borró el artículo con dicho código")
