@@ -26,10 +26,10 @@ class Libros:
     def consulta(self, datos):
         connect=self.abrir()
         cursor=connect.cursor()
-        sql="select Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado from libro where titulo=%s"
-        print(f'sql {sql}')
+        sql="select idLibro,Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado FROM libro WHERE idLibro=%s"
+        print(f'sql consulta {sql}')
         cursor.execute(sql, datos)
-
+        print(f'datos {datos}')
         #cursor.close()
         connect.close()
         return cursor.fetchall()
@@ -62,14 +62,11 @@ class Libros:
         #creo el puntero
         cursor=connect.cursor()
         print(f'Datos de consulta UPDATE {datos}')
-        #sql="UPDATE libro SET (Titulo=%s,Numero=%d,Paginas=%d,FechaPublicacion=%s,ISBN=%s,LinkImagen=%s,LinkDescarga=%s,Pais_idPais=%d,Editorial_idEditorial=%d,CantidadVecesPedidas=%d,Estado=%d) where (Titulo=%s)"
-        sql="UPDATE libro SET Titulo=%s,Numero=%s,Paginas=%s,FechaPublicacion=%s,ISBN=%s,LinkImagen=%s,LinkDescarga=%s,Pais_idPais=%s,Editorial_idEditorial=%s,CantidadVecesPedidas=%s,Estado=%s where Titulo=%s"
-        #sql = "UPDATE libro SET (Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) WHERE Titulo=%s"
-        #sql= "UPDATE libro SET Titulo,Numero,Paginas,FechaPublicacion,ISBN,LinkImagen,LinkDescarga,Pais_idPais,Editorial_idEditorial,CantidadVecesPedidas,Estado) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) WHERE Titulo=%s"
-        #sql="UPDATE libro SET Titulo={0},Numero={1},Paginas={2},FechaPublicacion={3},ISBN={4},LinkImagen={5},LinkDescarga={6},Pais_idPais={7},Editorial_idEditorial={8},CantidadVecesPedidas={9},Estado={10} WHERE Titulo={0}".format(datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],datos[6],datos[7],datos[8],datos[9],datos[10],datos[0])
-        #sql = "UPDATE libro SET Titulo={0},Numero={1},Paginas={2},FechaPublicacion={3},ISBN={4},LinkImagen={5},LinkDescarga={6},Pais_idPais={7},Editorial_idEditorial={8},CantidadVecesPedidas={9},Estado={10} WHERE Titulo={0}"
-        print(f'sql 67 {sql}')
-        print(f'Datos de consulta UPDATE 68 {datos}')
+        sql="UPDATE libro SET Titulo=%s,Numero=%s,Paginas=%s,FechaPublicacion=%s,ISBN=%s,LinkImagen=%s,LinkDescarga=%s,Pais_idPais=%s,Editorial_idEditorial=%s,CantidadVecesPedidas=%s,Estado=%s where idLibro=%s"
+        #sql="UPDATE `libro` SET `Titulo`=[value-2],`Numero`=[value-3],`Paginas`=[value-4],`FechaPublicacion`=[value-5],`ISBN`=[value-6],`LinkImagen`=[value-7],`LinkDescarga`=[value-8],`Pais_idPais`=[value-9],`Editorial_idEditorial`=[value-10],`CantidadVecesPedidas`=[value-11],`Estado`=[value-12] WHERE `Titulo`=[value-2]"
+        #print(f'Datos de consulta UPDATE 68 {datos}')
+        
+        print(f'sql 69 {sql}')
         cursor.execute(sql, datos)
         connect.commit()
           
