@@ -1,6 +1,6 @@
 import pymysql
 
-class Libros:
+class conector:
     #conecto a la base de datos
     def abrir(self):
         connection = pymysql.connect(host='localhost',user='root',password='', db='20181020_version1')

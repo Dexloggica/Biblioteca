@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as mb
 from tkinter import scrolledtext as st
-import codigo
+import codigo_bbdd
 
 #no deberian ir fijas
 pais=1
@@ -16,7 +16,7 @@ estado=0
 
 class FormularioBiblioteca:
     def __init__(self):
-        self.conexion=codigo.Libros()
+        self.conexion=codigo_bbdd.conector()
 
         #creo la ventana
         self.ventana1=tk.Tk()
